@@ -1,0 +1,75 @@
+﻿@page "/dashboard"
+@using LayTec_Dashboard.Services
+@inject IGetCurrentDashBoard GetCurrentDashBoard
+@inject IGetRoomTemperatureService GetRoomTemperature
+@inject IGetCurrentDateTimeService GetDateTime 
+<h3>DashBoard</h3>
+
+
+
+
+@code
+{
+    private IEnumerable<LayTec_Dashboard.Data.DashBoard> Data = Array.Empty<LayTec_Dashboard.Data.DashBoard>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        Data = await GetCurrentDashBoard.GetCurrentDascboardAsync();
+       // GetRoomTemperature.TemperatureUpdate += () => StateHasChanged();
+        
+    }
+
+}
+
+<div class="form-section">
+    @foreach (var item in Data)
+    {
+
+        @if (item.type == "Roomtemperature")
+        {
+
+            var roomTemperature = GetRoomTemperature.GetRoomTemperatureAsync().Result;
+            <panel>Roomtemperature: @roomTemperature.ToString()</panel>
+                <hr />
+
+        }
+
+         else if (item.type == "CurrentDateTime")
+        {
+            var dateTime = GetDateTime.GetCurrentDateTimeAsync();
+            <panel>Datetime: @dateTime.Result.ToString()</panel>
+            <hr />
+        }
+
+    }
+  
+
+    @code {
+        protected override void OnInitialized()
+        {
+            GetRoomTemperature.UiChanged += OnNotify;
+        }
+
+        public async void OnNotify(object source, EventArgs args)
+        {
+            await InvokeAsync(() =>
+            {
+                StateHasChanged();
+            });
+
+        }
+
+        public void Dispose()
+        {
+            GetRoomTemperature.UiChanged -= OnNotify;
+        }
+    }
+
+</div>
+<div class="row">
+    <div class="col-md-8">
+        <component type="typeof(DashBoard)" render-mode="ServerPrerendered" />
+    </div>
+</div>
+
