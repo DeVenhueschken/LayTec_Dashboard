@@ -9,27 +9,11 @@
         event UiChangedEventHandler UiChanged; //Handler
     }
 
-    //public class InjectableService
-    //{
-    //    public decimal Value { get; set; }
-    //    public event Func<Task> Notify;
-    //    //public decimal Data { get; set; }
-
-    //    public async Task RefreshAsync(decimal value)
-    //    {
-    //        if (Notify is { })
-    //        {
-    //            Value = value;
-    //            await Notify.Invoke();
-    //        }
-    //    }
-    //}
 
     public class GetRoomTemperatureService : IGetRoomTemperatureService //BackgroundService, IGetRoomTemperatureService 
     {
         private decimal Data;
         private static System.Timers.Timer _timer;
-        //private readonly InjectableService _injectableService;
 
         public event IGetRoomTemperatureService.UiChangedEventHandler UiChanged; //Event from the base Interface
 
@@ -68,24 +52,6 @@
         }
 
         public Task<decimal> GetRoomTemperatureAsync() => Task.FromResult(Data);
-
-
-
-
-        //public async Task Update(decimal value)
-        //{
-        //    await _injectableService.RefreshAsync(value);
-        //}
-
-        //protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-        //{
-        //    while (!stoppingToken.IsCancellationRequested)
-        //    {
-        //        await Update(Data).ConfigureAwait(false);
-        //        await Task.Delay(1000).ConfigureAwait(false);
-        //    }
-        //}
-
 
 
 
