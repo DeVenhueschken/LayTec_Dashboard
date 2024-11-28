@@ -22,7 +22,7 @@
 
 }
 
-<div class="form-section">
+<div class="form-section" >
     @foreach (var item in Data)
     {
 
@@ -30,17 +30,25 @@
         {
 
             var roomTemperature = GetRoomTemperature.GetRoomTemperatureAsync().Result;
-            <panel>Roomtemperature: @roomTemperature.ToString()</panel>
-                <hr />
-
+            <div class="RoomTemperature">
+                <label >widget 1</label>
+                <label> Roomtemperature: @roomTemperature.ToString()   </label>
+                         
+            </div>
         }
 
          else if (item.type == "CurrentDateTime")
         {
             var dateTime = GetDateTime.GetCurrentDateTimeAsync();
-            <panel>Datetime: @dateTime.Result.ToString()</panel>
-            <hr />
+            <div class="CurrentDateTime">
+                <label >widget 2</label>
+                <label>Datetime: @dateTime.Result.ToString()       </label>
+                       
+            </div>
+
         }
+
+
 
     }
   
